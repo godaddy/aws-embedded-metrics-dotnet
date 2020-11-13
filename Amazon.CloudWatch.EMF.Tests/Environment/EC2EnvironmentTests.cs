@@ -1,6 +1,7 @@
 using System;
 using Amazon.CloudWatch.EMF.Config;
 using Amazon.CloudWatch.EMF.Environment;
+using Amazon.CloudWatch.EMF.Model;
 using AutoFixture;
 using AutoFixture.AutoNSubstitute;
 using NSubstitute;
@@ -12,201 +13,76 @@ namespace Amazon.CloudWatch.EMF.Tests.Environment
     public class Ec2EnvironmentTests
     {
         private readonly IFixture _fixture;
+        private IConfiguration _configuration;
+        private IResourceFetcher _resourceFetcher;
+        private EC2Environment _environment;
+
         public Ec2EnvironmentTests()
         {
             _fixture = new Fixture().Customize(new AutoNSubstituteCustomization());
+            _configuration = _fixture.Create<IConfiguration>();
+            _resourceFetcher = _fixture.Create<IResourceFetcher>();
+            _environment = new EC2Environment(_configuration, _resourceFetcher);
         }
 
         [Fact]
-        public void Name_Configuration_Set()
+        public void Test_Probe_Returns_True()
         {
-            // Arrange
-            var name = "TestService";
-            var configuration = _fixture.Create<IConfiguration>();
-            var resourceFetcher = _fixture.Create<IResourceFetcher>();
-            configuration.ServiceName = name;
-            var environment = new EC2Environment(configuration, resourceFetcher);
-
-            // Act
-            var environmentName = environment.Name;
-
-            // Assert
-            Assert.Equal(name, environmentName);
-        }
-
-        [Fact]
-        public void Name_Configuration_NotSet()
-        {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var resourceFetcher = _fixture.Create<IResourceFetcher>();
-            var environment = new EC2Environment(configuration, resourceFetcher);
-
-            // Act
-            var environmentName = environment.Name;
-
-            // Assert
-            Assert.False(string.IsNullOrWhiteSpace(environmentName));
-        }
-
-        [Fact]
-        public void Type_Configuration_Set()
-        {
-            // Arrange
-            var type = "TestServiceType";
-            var configuration = _fixture.Create<IConfiguration>();
-            var resourceFetcher = _fixture.Create<IResourceFetcher>();
-            configuration.ServiceType = type;
-            var environment = new EC2Environment(configuration, resourceFetcher);
-
-            // Act
-            var typeName = environment.Type;
-
-            // Assert
-            Assert.Equal(type, typeName);
-        }
-
-        [Fact]
-        public void Type_Configuration_NotSet()
-        {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var resourceFetcher = _fixture.Create<IResourceFetcher>();
-            var environment = new EC2Environment(configuration, resourceFetcher);
-
-            // Act
-            var typeName = environment.Type;
-
-            // Assert
-            Assert.False(string.IsNullOrWhiteSpace(typeName));
-        }
-
-        [Fact]
-        public void LogStreamName_Configuration_Set()
-        {
-            // Arrange
-            var logStreamName = "TestServiceType";
-            var configuration = _fixture.Create<IConfiguration>();
-            var resourceFetcher = _fixture.Create<IResourceFetcher>();
-            configuration.LogStreamName.Returns(logStreamName);
-            var environment = new EC2Environment(configuration, resourceFetcher);
-
-            // Act
-            var streamName = environment.LogStreamName;
-
-            // Assert
-            Assert.Equal(logStreamName, streamName);
-        }
-
-        [Fact]
-        public void LogStreamName_Configuration_NotSet()
-        {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var resourceFetcher = _fixture.Create<IResourceFetcher>();
-            var environment = new EC2Environment(configuration, resourceFetcher);
-
-            // Act
-            var streamName = environment.LogStreamName;
-
-            // Assert
-            Assert.Equal(string.Empty, streamName);
-        }
-
-
-        [Fact]
-        public void LogGroupName_Configuration_Set()
-        {
-            // Arrange
-            var logGroupName = "TestLogGroup";
-            var configuration = _fixture.Create<IConfiguration>();
-            var resourceFetcher = _fixture.Create<IResourceFetcher>();
-            configuration.LogGroupName = logGroupName;
-            var environment = new EC2Environment(configuration, resourceFetcher);
-
-            // Act
-            var groupName = environment.LogGroupName;
-
-            // Assert
-            Assert.Equal(logGroupName, groupName);
-        }
-
-        [Fact]
-        public void LogGroupName_Configuration_NotSet()
-        {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var resourceFetcher = _fixture.Create<IResourceFetcher>();
-            var environment = new EC2Environment(configuration, resourceFetcher);
-
-            // Act
-            var streamName = environment.LogGroupName;
-
-            // Assert
-            Assert.False(string.IsNullOrWhiteSpace(streamName));
-        }
-
-        [Fact]
-        public void Probe_True()
-        {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var resourceFetcher = _fixture.Create<IResourceFetcher>();
-            var environment = new EC2Environment(configuration, resourceFetcher);
-
-            // Act
-            var result = environment.Probe();
-
-            // Assert
+            var result = _environment.Probe();
             Assert.True(result);
         }
 
         [Fact]
-        public void Probe_False()
+        public void Test_Probe_Returns_False()
         {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var resourceFetcher = _fixture.Create<IResourceFetcher>();
-            resourceFetcher.Fetch<EC2Metadata>(Arg.Any<Uri>()).Throws<EMFClientException>();
-            var environment = new EC2Environment(configuration, resourceFetcher);
-
-            // Act
-            var result = environment.Probe();
-
-            // Assert
+            _resourceFetcher.Fetch<EC2Metadata>(Arg.Any<Uri>()).Throws<EMFClientException>();
+            var result = _environment.Probe();
             Assert.False(result);
         }
 
         [Fact]
-        public void Type_WhenNoMetadata()
+        public void Test_GetType_WithNoMetadata()
         {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var resourceFetcher = _fixture.Create<IResourceFetcher>();
-            resourceFetcher.Fetch<EC2Metadata>(Arg.Any<Uri>()).Throws<EMFClientException>();
-            var environment = new EC2Environment(configuration, resourceFetcher);
-            environment.Probe();
+            _resourceFetcher.Fetch<EC2Metadata>(Arg.Any<Uri>()).Throws<EMFClientException>();
+            _environment.Probe();
+            Assert.Equal(Constants.UNKNOWN, _environment.Type);
+        }
+        
+        [Fact]
+        public void Test_GetType_FromConfiguration()
+        {
+            var serviceType = _fixture.Create<string>();
+            _configuration.ServiceType.Returns(serviceType);
+            _resourceFetcher.Fetch<EC2Metadata>(Arg.Any<Uri>()).Returns(new EC2Metadata());
 
-            // Act
-            var result = environment.Type;
-            // Assert
-            Assert.Equal(Constants.UNKNOWN, result);
+            _environment.Probe();
+
+            Assert.Equal(serviceType, _environment.Type);
         }
 
         [Fact]
-        public void Type_WithMetadata()
+        public void Test_GetType_WithMetadata()
         {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var resourceFetcher = _fixture.Create<IResourceFetcher>();
-            resourceFetcher.Fetch<EC2Metadata>(Arg.Any<Uri>()).Returns(new EC2Metadata());
-            var environment = new EC2Environment(configuration, resourceFetcher);
-            environment.Probe();
+            _resourceFetcher.Fetch<EC2Metadata>(Arg.Any<Uri>()).Returns(new EC2Metadata());
+            _environment.Probe();
+            Assert.Equal("AWS::EC2::Instance", _environment.Type);
+        }
 
-            // Act
-            var result = environment.Type;
-            // Assert
-            Assert.Equal("AWS::EC2::Instance", result);
+        [Fact]
+        public void Test_ConfigureContext()
+        {
+            var ec2Metadata = _fixture.Create<EC2Metadata>();
+            _resourceFetcher.Fetch<EC2Metadata>(Arg.Any<Uri>()).Returns(ec2Metadata);
+            _environment.Probe();
+
+            MetricsContext context = new MetricsContext();
+            _environment.ConfigureContext(context);
+
+            Assert.Equal(ec2Metadata.ImageId, context.GetProperty("imageId"));
+            Assert.Equal(ec2Metadata.InstanceId, context.GetProperty("instanceId"));
+            Assert.Equal(ec2Metadata.InstanceType, context.GetProperty("instanceType"));
+            Assert.Equal(ec2Metadata.PrivateIp, context.GetProperty("privateIp"));
+            Assert.Equal(ec2Metadata.AvailabilityZone, context.GetProperty("availabilityZone"));
         }
     }
 }

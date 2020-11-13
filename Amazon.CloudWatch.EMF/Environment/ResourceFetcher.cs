@@ -4,6 +4,7 @@ using System.Net;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Amazon.CloudWatch.EMF.Environment
 {
@@ -27,9 +28,16 @@ namespace Amazon.CloudWatch.EMF.Environment
         /// <returns></returns>
         public T Fetch<T>(Uri endpoint)
         {
-            string response = ReadResource(endpoint, "GET");
+            try
+            {
+                string response = ReadResource(endpoint, "GET");
 
-            return JsonConvert.DeserializeObject<T>(response);
+                return JsonConvert.DeserializeObject<T>(response);
+            }
+            catch (JsonReaderException ex)
+            {
+                throw new EMFClientException("Unable to parse json string", ex);
+            }
         }
 
         private string ReadResource(Uri endpoint, string method)
@@ -38,29 +46,30 @@ namespace Amazon.CloudWatch.EMF.Environment
             {
                 var httpWebRequest = GetHttpWebRequest(endpoint, method);
 
-                var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                if (httpWebRequest != null)
+                {
+                    var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
 
-                if (httpWebResponse.StatusCode == HttpStatusCode.OK)
-                {
-                    return GetResponse(httpWebResponse);
-                }
-                else if (httpWebResponse.StatusCode == HttpStatusCode.NotFound)
-                {
-                    throw new EMFClientException("The requested metadata is not found at " + httpWebRequest.RequestUri.AbsolutePath);
-                }
-                else
-                {
-                    HandleErrorResponse(httpWebResponse);
+                    if (httpWebResponse.StatusCode == HttpStatusCode.OK)
+                    {
+                        return GetResponse(httpWebResponse);
+                    }
+                    else if (httpWebResponse.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        throw new EMFClientException("The requested metadata is not found at " + httpWebRequest.RequestUri.AbsolutePath);
+                    }
+                    else
+                    {
+                        HandleErrorResponse(httpWebResponse);
+                    }
                 }
             }
-            catch (IOException e)
+            catch (Exception ex)
             {
-                _logger.LogDebug(
-                    "An IOException occurred when connecting to service endpoint: "
-                    + endpoint
-                    + "\n Retrying to connect "
-                    + "again.");
-                throw new EMFClientException("Failed to connect to service endpoint: ", e);
+                _logger.LogDebug("An exception occurred when connecting to service endpoint: "
+                                 + endpoint
+                                 + "\n Retrying to connect again.");
+                throw new EMFClientException("Failed to connect to service endpoint", ex);
             }
 
             return string.Empty;
@@ -70,26 +79,24 @@ namespace Amazon.CloudWatch.EMF.Environment
         {
             string errorResponse = GetResponse(httpWebResponse);
 
-            try
+            /*try
             {
-                /*JsonNode node = Jackson.jsonNodeOf(errorResponse);
+                JObject node = Jackson.jsonNodeOf(errorResponse);
                 JsonNode code = node.get("code");
                 JsonNode message = node.get("message");
-                if (code != null && message != null) {
+                if (code != null && message != null)
+                {
                     errorCode = code.asText();
                     responseMessage = message.asText();
                 }
 
-                String exceptionMessage =
-                    String.format(
-                        "Failed to get resource. Error code: %s, error message: %s ",
-                        errorCode, responseMessage);
-                throw new EMFClientException(exceptionMessage);*/
+                string exceptionMessage = string.Format("Failed to get resource. Error code: %s, error message: %s ", errorCode, responseMessage);
+                throw new EMFClientException(exceptionMessage);
             }
-            catch (System.Exception exception)
+            catch (System.Exception ex)
             {
-                throw new EMFClientException("Unable to parse error stream: ", exception);
-            }
+                throw new EMFClientException("Unable to parse error stream: ", ex);
+            }*/
         }
 
         private HttpWebRequest GetHttpWebRequest(Uri endpoint, string method)

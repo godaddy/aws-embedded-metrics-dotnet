@@ -4,6 +4,10 @@ namespace Amazon.CloudWatch.EMF.Config
 {
     public class Configuration : IConfiguration
     {
+        public Configuration()
+        {
+        }
+
         public Configuration(string serviceName, string serviceType, string logGroupName, string logStreamName, string agentEndPoint, Environments environmentOverride)
         {
             ServiceName = serviceName;
@@ -15,20 +19,20 @@ namespace Amazon.CloudWatch.EMF.Config
         }
 
         /// <summary>
-        /// Gets name of the service to use in the default dimensions
+        /// Gets name of the service to use in the default dimensions.
         /// </summary>
-        public string ServiceName { get; set; }
+        public string ServiceName { get; private set; }
 
         /// <summary>
         /// Gets the type of the service to use in the default dimensions.
         /// </summary>
-        public string ServiceType { get; set; }
+        public string ServiceType { get; private set; }
 
         /// <summary>
         /// Gets the LogGroup name to use.
         /// This is only used for the Cloudwatch Agent in agent-based environment.
         /// </summary>
-        public string LogGroupName { get; set; }
+        public string LogGroupName { get; private set; }
 
         /// <summary>
         /// Gets the LogStream name to use. This will be ignored when using the Lambda scope.

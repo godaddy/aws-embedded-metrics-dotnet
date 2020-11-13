@@ -88,18 +88,18 @@ namespace Amazon.CloudWatch.EMF.Environment
     public class EC2Metadata
     {
         [JsonProperty("imageId")]
-        internal string ImageId { get; set; }
+        internal string ImageId { get; }
 
         [JsonProperty("availabilityZone")]
-        internal string AvailabilityZone { get; set; }
+        internal string AvailabilityZone { get; }
 
         [JsonProperty("privateIp")]
-        internal string PrivateIp { get; set; }
+        internal string PrivateIp { get; }
 
         [JsonProperty("instanceId")]
-        internal string InstanceId { get; set; }
+        internal string InstanceId { get; }
 
         [JsonProperty("instanceType")]
-        internal string InstanceType { get; set; }
+        internal string InstanceType { get; }
     }
 }

@@ -26,9 +26,9 @@ namespace Amazon.CloudWatch.EMF.IntegrationTests
 
         public MetricsLoggerIntegrationTest()
         {
-            _config.ServiceName = _serviceName;
-            _config.ServiceType = _serviceType;
-            _config.LogGroupName = _logGroupName;
+            //_config.ServiceName = _serviceName;
+            //_config.ServiceType = _serviceType;
+            //_config.LogGroupName = _logGroupName;
         }
 
         [Fact(Timeout = 120_000)]

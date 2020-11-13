@@ -10,142 +10,53 @@ namespace Amazon.CloudWatch.EMF.Tests.Environment
     public class DefaultEnvironmentTests
     {
         private readonly IFixture _fixture;
+        private IConfiguration _configuration;
+        private DefaultEnvironment _environment;
         public DefaultEnvironmentTests()
         {
             _fixture = new Fixture().Customize(new AutoNSubstituteCustomization());
+            _configuration = _fixture.Create<IConfiguration>();
+            _environment = new DefaultEnvironment(_configuration);
+        }
+        
+        [Fact]
+        public void Test_Name_Configuration_NotSet()
+        {
+            Assert.False(string.IsNullOrWhiteSpace(_environment.Name));
+        }
+        
+
+        [Fact]
+        public void Test_Type_Configuration_NotSet()
+        {
+            Assert.False(string.IsNullOrWhiteSpace( _environment.Type));
         }
 
         [Fact]
-        public void Name_Configuration_Set()
+        public void Test_LogStreamName_Configuration_Set()
         {
-            // Arrange
-            var name = "TestService";
-            var configuration = _fixture.Create<IConfiguration>();
-            configuration.ServiceName = name;
-            var environment = new DefaultEnvironment(configuration);
-
-            // Act
-            var environmentName = environment.Name;
-
-            // Assert
-            Assert.Equal(name, environmentName);
-        }
-
-        [Fact]
-        public void Name_Configuration_NotSet()
-        {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var environment = new DefaultEnvironment(configuration);
-
-            // Act
-            var environmentName = environment.Name;
-
-            // Assert
-            Assert.False(string.IsNullOrWhiteSpace(environmentName));
-        }
-
-        [Fact]
-        public void Type_Configuration_Set()
-        {
-            // Arrange
-            var type = "TestServiceType";
-            var configuration = _fixture.Create<IConfiguration>();
-            configuration.ServiceType = type;
-            var environment = new DefaultEnvironment(configuration);
-
-            // Act
-            var typeName = environment.Type;
-
-            // Assert
-            Assert.Equal(type, typeName);
-        }
-
-        [Fact]
-        public void Type_Configuration_NotSet()
-        {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var environment = new DefaultEnvironment(configuration);
-
-            // Act
-            var typeName = environment.Type;
-
-            // Assert
-            Assert.False(string.IsNullOrWhiteSpace(typeName));
-        }
-
-        [Fact]
-        public void LogStreamName_Configuration_Set()
-        {
-            // Arrange
             var logStreamName = "TestServiceType";
-            var configuration = _fixture.Create<IConfiguration>();
-            configuration.LogStreamName.Returns(logStreamName);
-            var environment = new DefaultEnvironment(configuration);
+            _configuration.LogStreamName.Returns(logStreamName);
 
-            // Act
-            var streamName = environment.LogStreamName;
-
-            // Assert
-            Assert.Equal(logStreamName, streamName);
+            Assert.Equal(logStreamName, _environment.LogStreamName);
         }
 
         [Fact]
-        public void LogStreamName_Configuration_NotSet()
+        public void Test_LogStreamName_Configuration_NotSet()
         {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var environment = new DefaultEnvironment(configuration);
-
-            // Act
-            var streamName = environment.LogStreamName;
-
-            // Assert
-            Assert.Equal(string.Empty, streamName);
+            Assert.Equal(string.Empty, _environment.LogStreamName);
         }
 
         [Fact]
-        public void LogGroupName_Configuration_Set()
+        public void Test_LogGroupName_Configuration_NotSet()
         {
-            // Arrange
-            var logGroupName = "TestLogGroup";
-            var configuration = _fixture.Create<IConfiguration>();
-            configuration.LogGroupName = logGroupName;
-            var environment = new DefaultEnvironment(configuration);
-
-            // Act
-            var groupName = environment.LogGroupName;
-
-            // Assert
-            Assert.Equal(logGroupName, groupName);
+            Assert.False(string.IsNullOrWhiteSpace(_environment.LogGroupName));
         }
 
         [Fact]
-        public void LogGroupName_Configuration_NotSet()
+        public void Test_Probe()
         {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var environment = new DefaultEnvironment(configuration);
-
-            // Act
-            var streamName = environment.LogGroupName;
-
-            // Assert
-            Assert.False(string.IsNullOrWhiteSpace(streamName));
-        }
-
-        [Fact]
-        public void Probe()
-        {
-            // Arrange
-            var configuration = _fixture.Create<IConfiguration>();
-            var environment = new DefaultEnvironment(configuration);
-
-            // Act
-            var result = environment.Probe();
-
-            // Assert
+            var result = _environment.Probe();
             Assert.True(result);
         }
     }

@@ -1,8 +1,9 @@
-using System;
+using System.Collections.Generic;
 using Amazon.CloudWatch.EMF.Model;
 using Amazon.CloudWatch.EMF.Sink;
 using AutoFixture;
 using AutoFixture.AutoNSubstitute;
+using Newtonsoft.Json;
 using NSubstitute;
 using Xunit;
 
@@ -10,7 +11,6 @@ namespace Amazon.CloudWatch.EMF.Tests.Sink
 {
     public class TestClient : ISocketClient 
     {
-
         private string _message;
         public void SendMessage(string message)
         {
@@ -25,7 +25,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Sink
     public class AgentSinkTests
     {
         private SocketClientFactory _socketClientFactory;
-        private TestClient _client;
+        private ISocketClient _client;
         private readonly IFixture _fixture;
         
         public AgentSinkTests()
@@ -33,27 +33,30 @@ namespace Amazon.CloudWatch.EMF.Tests.Sink
             _fixture = new Fixture().Customize(new AutoNSubstituteCustomization());
             _socketClientFactory = _fixture.Create<SocketClientFactory>();
             _client = new TestClient();
-            _socketClientFactory.GetClient(Endpoint.DEFAULT_TCP_ENDPOINT).Returns(_client);
+            _socketClientFactory.GetClient(Arg.Any<Endpoint>()).ReturnsForAnyArgs(_client);
         }
-        
         
         [Fact]
-        public void TestAccept() {
-            String prop = "TestProp";
-            String propValue = "TestPropValue";
-            String logGroupName = "TestLogGroup";
-            String logStreamName = "TestLogStream";
+        public void Test_Accept() 
+        {
+            string prop = "TestProp";
+            string propValue = "TestPropValue";
+            string logGroupName = "TestLogGroup";
+            string logStreamName = "TestLogStream";
 
-            MetricsContext mc = new MetricsContext();
+            var metricsContext = new MetricsContext();
+            metricsContext.PutProperty(prop, propValue);
+            metricsContext.PutMetric("Time", 10);
 
-            mc.PutProperty(prop, propValue);
-            mc.PutMetric("Time", 10);
+            var agentSink = new AgentSink(logGroupName, logStreamName, Endpoint.DEFAULT_TCP_ENDPOINT, _socketClientFactory);
+            agentSink.Accept(metricsContext);
 
-            AgentSink sink = new AgentSink(logGroupName, logStreamName, Endpoint.DEFAULT_TCP_ENDPOINT, _socketClientFactory);
+            TestClient testClient = (TestClient) _client;
+            var emfMap = JsonConvert.DeserializeObject<Dictionary<string, object>>(testClient.GetMessage());
+            var metadata = JsonConvert.DeserializeObject<Dictionary<string, object>>(emfMap["_aws"].ToString());
 
-            sink.Accept(mc);
-
+            Assert.False( metadata.ContainsKey("LogGroupName"));
+            Assert.False( metadata.ContainsKey("LogStreamName"));
         }
-
     }
 }

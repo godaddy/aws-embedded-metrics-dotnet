@@ -13,8 +13,8 @@ namespace Amazon.CloudWatch.EMF.Environment
 {
     public class ECSEnvironment : AgentBasedEnvironment
     {
-        private const string ECS_CONTAINER_METADATA_URI = "ECS_CONTAINER_METADATA_URI";
-        private const string FLUENT_HOST = "FLUENT_HOST";
+        internal const string ECS_CONTAINER_METADATA_URI = "ECS_CONTAINER_METADATA_URI";
+        internal const string FLUENT_HOST = "FLUENT_HOST";
         private const string ENVIRONMENT_TYPE = "AWS::ECS::Container";
 
         private readonly ILogger _logger;
@@ -154,7 +154,7 @@ namespace Amazon.CloudWatch.EMF.Environment
             if (_ecsMetadata?.Image == null) return;
 
             var imageName = _ecsMetadata.Image;
-            var splitImageNames = imageName.Split("\\/");
+            var splitImageNames = imageName.Split("/");
             _ecsMetadata.FormattedImageName = splitImageNames[^1];
         }
     }

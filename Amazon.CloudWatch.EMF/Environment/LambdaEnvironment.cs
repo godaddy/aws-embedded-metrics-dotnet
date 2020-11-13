@@ -7,12 +7,12 @@ namespace Amazon.CloudWatch.EMF.Environment
 {
     public class LambdaEnvironment : IEnvironment
     {
-        private const string AWS_EXECUTION_ENV = "AWS_EXECUTION_ENV";
-        private const string LAMBDA_FUNCTION_NAME = "AWS_LAMBDA_FUNCTION_NAME";
-        private const string LAMBDA_FUNCTION_VERSION = "AWS_LAMBDA_FUNCTION_VERSION";
-        private const string LAMBDA_LOG_STREAM = "AWS_LAMBDA_LOG_STREAM_NAME";
-        private const string TRACE_ID = "_X_AMZN_TRACE_ID";
-        private const string LAMBDA_CFN_NAME = "AWS::Lambda::Function";
+        internal const string AWS_EXECUTION_ENV = "AWS_EXECUTION_ENV";
+        internal const string LAMBDA_FUNCTION_NAME = "AWS_LAMBDA_FUNCTION_NAME";
+        internal const string LAMBDA_FUNCTION_VERSION = "AWS_LAMBDA_FUNCTION_VERSION";
+        internal const string LAMBDA_LOG_STREAM = "AWS_LAMBDA_LOG_STREAM_NAME";
+        internal const string TRACE_ID = "_X_AMZN_TRACE_ID";
+        internal const string LAMBDA_CFN_NAME = "AWS::Lambda::Function";
 
         private ISink _sink = null;
 
@@ -28,7 +28,7 @@ namespace Amazon.CloudWatch.EMF.Environment
             get
             {
                 string functionName = EnvUtils.GetEnv(LAMBDA_FUNCTION_NAME);
-                return functionName != null ? functionName : "Unknown";
+                return functionName ?? "Unknown";
             }
         }
 
@@ -61,7 +61,7 @@ namespace Amazon.CloudWatch.EMF.Environment
         {
             if (value != null)
             {
-                // context.putProperty(key, value);
+                context.PutProperty(key, value);
             }
         }
 
