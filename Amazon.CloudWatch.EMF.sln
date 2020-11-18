@@ -18,6 +18,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.CloudWatch.EMF.Conso
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.CloudWatch.EMF.Lambda", "Amazon.CloudWatch.EMF.Lambda\Amazon.CloudWatch.EMF.Lambda.csproj", "{799C402C-25A6-49E0-B0BC-1DB5FBB31F0D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{81833341-BCA5-4760-9DEC-D5F461B91738}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,5 +52,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EA98FFB0-A541-457D-9F20-3C969434F9A1}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2273B766-F2AE-4340-85B7-AA881EB31BB6} = {81833341-BCA5-4760-9DEC-D5F461B91738}
 	EndGlobalSection
 EndGlobal
