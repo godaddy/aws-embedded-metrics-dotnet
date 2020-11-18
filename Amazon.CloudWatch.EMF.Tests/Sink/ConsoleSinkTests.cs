@@ -49,8 +49,6 @@ namespace Amazon.CloudWatch.EMF.Tests.Sink
         {
             string prop = "TestProp";
             string propValue = "TestPropValue";
-            string logGroupName = "TestLogGroup";
-            string logStreamName = "TestLogStream";
 
             var metricsContext = new MetricsContext();
             metricsContext.PutProperty(prop, propValue);
@@ -64,11 +62,10 @@ namespace Amazon.CloudWatch.EMF.Tests.Sink
                 message = consoleOutput.GetOutput();
             }
             
-            var emfMap = JsonConvert.DeserializeObject<Dictionary<string, object>>(message);
-            var metadata = JsonConvert.DeserializeObject<Dictionary<string, object>>(emfMap["_aws"].ToString());
+            var emfMap = JsonConvert.DeserializeObject<Dictionary<string, object>>(message); 
             
-            Assert.Equal(emfMap[prop], propValue);
-            Assert.Equal(emfMap["Time"], 10.0);
+            Assert.Equal(propValue, emfMap[prop]);
+            Assert.Equal(10.0, emfMap["Time"] );
         }
         
         [Fact]

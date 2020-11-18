@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Amazon.CloudWatch.EMF.Tests.Environment
 {
-    public class EcsEnvironmentTests
+    public class EcsEnvironmentTests : IDisposable
     {
         private readonly IFixture _fixture;
         private IConfiguration _configuration;
@@ -27,7 +27,13 @@ namespace Amazon.CloudWatch.EMF.Tests.Environment
             
             System.Environment.SetEnvironmentVariable(ECSEnvironment.ECS_CONTAINER_METADATA_URI, "http://ecs-metata.com");
         }
-        
+
+        public void Dispose()
+        {
+            System.Environment.SetEnvironmentVariable(ECSEnvironment.ECS_CONTAINER_METADATA_URI, null);
+            System.Environment.SetEnvironmentVariable(ECSEnvironment.FLUENT_HOST, null);
+        }
+
         [Fact]
         public void Test_Probe_Returns_False_If_NoUri()
         {

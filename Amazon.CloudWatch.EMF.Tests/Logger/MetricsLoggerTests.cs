@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Amazon.CloudWatch.EMF.Environment;
@@ -37,7 +36,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Logger
         }
 
         [Fact]
-        public void TestPutProperty()
+        public void Test_PutProperty()
         {
             var propertyName = "Property";
             var propertyValue = "PropValue";
@@ -47,7 +46,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Logger
         }
 
         [Fact]
-        public void TestPutDimension()
+        public void Test_PutDimension()
         {
             var dimensionName = "dim";
             var dimensionValue = "dimValue";
@@ -59,7 +58,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Logger
         }
 
         [Fact]
-        public void TestOverrideDefaultDimensions()
+        public void Test_Override_DefaultDimensions()
         {
             var dimensionName = "dim";
             var dimensionValue = "dimValue";
@@ -79,7 +78,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Logger
         }
 
         [Fact]
-        public void TestOverridePreviousDimensions()
+        public void Test_Override_PreviousDimensions()
         {
             var dimensionName = "dim";
             var dimensionValue = "dimValue";
@@ -94,7 +93,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Logger
         }
 
         [Fact]
-        public void TestSetNameSpace()
+        public void Test_SetNameSpace()
         {
             string namespaceValue = "TestNamespace";
             _metricsLogger.SetNamespace(namespaceValue);
@@ -103,7 +102,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Logger
         }
 
         [Fact]
-        public void TestFlushWithConfiguredServiceName()
+        public void Test_Flush_WithConfiguredServiceName()
         {
             string serviceName = "TestServiceName";
             _environment.Name.Returns(serviceName);
@@ -113,7 +112,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Logger
         }
 
         [Fact]
-        public void TestFlushWithConfiguredServiceType()
+        public void Test_Flush_WithConfiguredServiceType()
         {
             string serviceType = "TestServiceType";
             _environment.Type.Returns(serviceType);
@@ -123,7 +122,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Logger
         }
 
         [Fact]
-        public void TestFlushWithConfiguredLogGroup()
+        public void Test_Flush_WithConfiguredLogGroup()
         {
             string logGroup = "LogGroup";
             _environment.LogGroupName.Returns(logGroup);
@@ -134,7 +133,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Logger
 
 
         [Fact]
-        public void TestFlushWithDefaultDimensionDefined()
+        public void Test_Flush_WithDefaultDimensionDefined()
         {
             MetricsContext metricsContext = new MetricsContext();
             metricsContext.DefaultDimensions.Dimensions.Add("foo", "bar");
@@ -148,7 +147,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Logger
         }
 
         [Fact]
-        public void TestPutMetricWithNoUnit()
+        public void Test_PutMetric_WithNoUnit()
         {
             string expectedKey = "test";
             double expectedValue = 2.0;
@@ -166,7 +165,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Logger
         }
 
         [Fact]
-        public void TestPutMetricWithUnit()
+        public void Test_PutMetric_WithUnit()
         {
             string expectedKey = "test";
             double expectedValue = 2.0;
@@ -184,7 +183,7 @@ namespace Amazon.CloudWatch.EMF.Tests.Logger
         }
 
         [Fact]
-        public void TestPutMetaData()
+        public void Test_PutMetaData()
         {
             string expectedKey = "testKey";
             string expectedValue = "testValue";
