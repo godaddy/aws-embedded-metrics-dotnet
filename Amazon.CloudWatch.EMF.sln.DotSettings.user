@@ -29,7 +29,7 @@
     &lt;TestId&gt;xUnit::DE74081D-79B8-44CA-94F7-60142C9F9A84::.NETCoreApp,Version=v3.1::Amazon.CloudWatch.EMF.Tests.Environment.ResourceFetcherTests.Test_ReadData_With200Response&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=86c10ca8_002Df94f_002D4f3f_002Db771_002Dad88f4ab1722/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test_Fetch_ThrowsException_For404Response #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=86c10ca8_002Df94f_002D4f3f_002Db771_002Dad88f4ab1722/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test_Fetch_ThrowsException_For404Response #5" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/Users/ntatikonda/repos/aws-embedded-metrics-dotnet/Amazon.CloudWatch.EMF.Tests" Presentation="&amp;lt;Amazon.CloudWatch.EMF.Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=96640e8c_002D1033_002D4ab6_002Dacf9_002D4b6a391dda1d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="testFetchThrowsExceptionFor404Response #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
@@ -91,8 +91,6 @@
     &lt;TestId&gt;xUnit::DE74081D-79B8-44CA-94F7-60142C9F9A84::.NETCoreApp,Version=v3.1::Amazon.CloudWatch.EMF.Tests.Environment.EcsEnvironmentTests.Test_GetName_FromMetaData&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ff4458de_002Ddc59_002D415d_002D92ca_002D573c05fd2546/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test_ReadData_With200Response #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;TestAncestor&gt;
-    &lt;TestId&gt;xUnit::DE74081D-79B8-44CA-94F7-60142C9F9A84::.NETCoreApp,Version=v3.1::Amazon.CloudWatch.EMF.Tests.Environment.ResourceFetcherTests.Test_ReadData_With200Response&lt;/TestId&gt;
-  &lt;/TestAncestor&gt;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=ff4458de_002Ddc59_002D415d_002D92ca_002D573c05fd2546/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Test_ReadData_With200Response #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/Users/ntatikonda/repos/aws-embedded-metrics-dotnet/tests/Amazon.CloudWatch.EMF.Tests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;Amazon.CloudWatch.EMF.Tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

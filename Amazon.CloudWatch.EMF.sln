@@ -1,24 +1,28 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.CloudWatch.EMF", "Amazon.CloudWatch.EMF\Amazon.CloudWatch.EMF.csproj", "{2273B766-F2AE-4340-85B7-AA881EB31BB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.CloudWatch.EMF", "src\Amazon.CloudWatch.EMF\Amazon.CloudWatch.EMF.csproj", "{2273B766-F2AE-4340-85B7-AA881EB31BB6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.CloudWatch.EMF.Tests", "Amazon.CloudWatch.EMF.Tests\Amazon.CloudWatch.EMF.Tests.csproj", "{DE74081D-79B8-44CA-94F7-60142C9F9A84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.CloudWatch.EMF.Tests", "tests\Amazon.CloudWatch.EMF.Tests\Amazon.CloudWatch.EMF.Tests.csproj", "{DE74081D-79B8-44CA-94F7-60142C9F9A84}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.CloudWatch.EMF.IntegrationTests", "Amazon.CloudWatch.EMF.IntegrationTests\Amazon.CloudWatch.EMF.IntegrationTests.csproj", "{BB012365-7A17-4BE1-93E4-399E3E3FF74F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.CloudWatch.EMF.IntegrationTests", "tests\Amazon.CloudWatch.EMF.IntegrationTests\Amazon.CloudWatch.EMF.IntegrationTests.csproj", "{BB012365-7A17-4BE1-93E4-399E3E3FF74F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E31C86A2-4A08-4020-9A23-885837CE15C8}"
 	ProjectSection(SolutionItems) = preProject
 		Amazon.CloudWatch.EMF.ruleset = Amazon.CloudWatch.EMF.ruleset
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.CloudWatch.EMF.ConsoleApp", "Amazon.CloudWatch.EMF.ConsoleApp\Amazon.CloudWatch.EMF.ConsoleApp.csproj", "{668A3240-E6DD-415F-8E0C-1E134DC85DF6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.CloudWatch.EMF.Lambda", "Amazon.CloudWatch.EMF.Lambda\Amazon.CloudWatch.EMF.Lambda.csproj", "{799C402C-25A6-49E0-B0BC-1DB5FBB31F0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Amazon.CloudWatch.EMF.Lambda", "examples\Amazon.CloudWatch.EMF.Lambda\Amazon.CloudWatch.EMF.Lambda.csproj", "{799C402C-25A6-49E0-B0BC-1DB5FBB31F0D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{81833341-BCA5-4760-9DEC-D5F461B91738}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D8907412-DC82-4D6A-A800-334EBBEB0B52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{0238AD08-DE7F-412E-A185-F7E323257029}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amazon.CloudWatch.EMF.ConsoleApp", "examples\Amazon.CloudWatch.EMF.ConsoleApp\Amazon.CloudWatch.EMF.ConsoleApp.csproj", "{17583FC2-9663-4746-B535-9D02BF3A28AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,14 +42,14 @@ Global
 		{BB012365-7A17-4BE1-93E4-399E3E3FF74F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB012365-7A17-4BE1-93E4-399E3E3FF74F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB012365-7A17-4BE1-93E4-399E3E3FF74F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{668A3240-E6DD-415F-8E0C-1E134DC85DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{668A3240-E6DD-415F-8E0C-1E134DC85DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{668A3240-E6DD-415F-8E0C-1E134DC85DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{668A3240-E6DD-415F-8E0C-1E134DC85DF6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{799C402C-25A6-49E0-B0BC-1DB5FBB31F0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{799C402C-25A6-49E0-B0BC-1DB5FBB31F0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{799C402C-25A6-49E0-B0BC-1DB5FBB31F0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{799C402C-25A6-49E0-B0BC-1DB5FBB31F0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17583FC2-9663-4746-B535-9D02BF3A28AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17583FC2-9663-4746-B535-9D02BF3A28AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17583FC2-9663-4746-B535-9D02BF3A28AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17583FC2-9663-4746-B535-9D02BF3A28AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,5 +59,9 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2273B766-F2AE-4340-85B7-AA881EB31BB6} = {81833341-BCA5-4760-9DEC-D5F461B91738}
+		{BB012365-7A17-4BE1-93E4-399E3E3FF74F} = {D8907412-DC82-4D6A-A800-334EBBEB0B52}
+		{DE74081D-79B8-44CA-94F7-60142C9F9A84} = {D8907412-DC82-4D6A-A800-334EBBEB0B52}
+		{799C402C-25A6-49E0-B0BC-1DB5FBB31F0D} = {0238AD08-DE7F-412E-A185-F7E323257029}
+		{17583FC2-9663-4746-B535-9D02BF3A28AF} = {0238AD08-DE7F-412E-A185-F7E323257029}
 	EndGlobalSection
 EndGlobal
